@@ -17,6 +17,17 @@ router.post("/login", async (req, res) => {
   res.status(201).json({ token: generateToken(user._id) });
 });
 
+// Get all users
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find(); // You can also limit fields with .select("name email role")
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 // route to profile
 router.get("/profile", protect, async (req, res) => {
   res.json(req.user);
